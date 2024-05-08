@@ -4,9 +4,17 @@ const port = 3001;
 const mongoose = require("mongoose");
 app.use(express.urlencoded({ extended: true }));
 const Data = require("./models/data");
+app.set("view engine", "ejs");
 
 app.get("/", (req, res) => {
-  res.sendFile("./views/home.html", { root: __dirname });
+  Data.find()
+    .then((result) => {
+      // console.log(result);
+      res.render("home", { title: "home page", arr: result });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 });
 
 mongoose
